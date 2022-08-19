@@ -20,6 +20,8 @@ class _AddBallScreenState extends State<AddBallScreen> {
   String selectedStroke = '';
   String strokeCategory = 'offensive';
   String selectedStrokeCategory = 'offensive';
+  String chosenHand = "";
+  String selectedSpin = "";
 
   _buildStrokeList() {
     List<String> strokes = [];
@@ -30,7 +32,7 @@ class _AddBallScreenState extends State<AddBallScreen> {
           strokes = [
             "Drive",
             "Slow Topspin",
-            "Counter Topspin"
+            "Counter Topspin",
             "Push",
             "Flick",
             "Chop",
@@ -77,15 +79,38 @@ class _AddBallScreenState extends State<AddBallScreen> {
             });
           },
           child: Container(
-            width: 150,
+            width: appWidth * 0.26,
             decoration: selectedStroke == stroke
-                ? BoxDecoration(color: Theme.of(context).primaryColor)
+                ? BoxDecoration(
+                    color: Theme.of(context).primaryColor.withOpacity(0.7),
+                    border: const Border.symmetric(
+                        horizontal: BorderSide(
+                            color: Color.fromARGB(255, 205, 193, 66))),
+                    gradient: LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      colors: [
+                        Theme.of(context).primaryColor.withOpacity(0.0),
+                        Theme.of(context).primaryColor.withOpacity(0.9),
+                        Theme.of(context).primaryColor.withOpacity(0.00),
+                      ],
+                    ))
                 : const BoxDecoration(),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
               child: Text(
                 stroke,
                 textAlign: TextAlign.center,
+                style: selectedStroke == stroke
+                    ? const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 16,
+                      )
+                    : const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                      ),
               ),
             ),
           ),
@@ -185,6 +210,140 @@ class _AddBallScreenState extends State<AddBallScreen> {
     );
   }
 
+  _buildHandSelector() {
+    List hands = ["Forehand", "Backhand"];
+
+    List<Widget> handWidgets = [];
+    for (var hand in hands) {
+      handWidgets.add(GestureDetector(
+        onTap: () {
+          setState(() {
+            chosenHand = hand;
+          });
+        },
+        child: Container(
+          width: 120,
+          decoration: hand == chosenHand
+              ? BoxDecoration(
+                  color: Theme.of(context).primaryColor.withOpacity(0.7),
+                  border: const Border.symmetric(
+                      horizontal:
+                          BorderSide(color: Color.fromARGB(255, 205, 193, 66))),
+                  gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [
+                      Theme.of(context).primaryColor.withOpacity(0.0),
+                      Theme.of(context).primaryColor.withOpacity(0.9),
+                      Theme.of(context).primaryColor.withOpacity(0.00),
+                    ],
+                  ))
+              : const BoxDecoration(),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            child: Text(
+              hand,
+              textAlign: TextAlign.center,
+              style: chosenHand == hand
+                  ? const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w900,
+                      fontSize: 16,
+                    )
+                  : const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 14,
+                    ),
+            ),
+          ),
+        ),
+      ));
+    }
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: handWidgets,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  _buildSpinSelector() {
+    List spins = ["Top", "Top-side", "Side", "Back-side", "back"];
+
+    List<Widget> handWidgets = [];
+    for (var spin in spins) {
+      handWidgets.add(GestureDetector(
+        onTap: () {
+          setState(() {
+            selectedSpin = spin;
+          });
+        },
+        child: Container(
+          width: appWidth * 0.26,
+          decoration: spin == selectedSpin
+              ? BoxDecoration(
+                  color: Theme.of(context).primaryColor.withOpacity(0.7),
+                  border: const Border.symmetric(
+                      horizontal:
+                          BorderSide(color: Color.fromARGB(255, 205, 193, 66))),
+                  gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [
+                      Theme.of(context).primaryColor.withOpacity(0.0),
+                      Theme.of(context).primaryColor.withOpacity(0.9),
+                      Theme.of(context).primaryColor.withOpacity(0.00),
+                    ],
+                  ))
+              : const BoxDecoration(),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 8),
+            child: Text(
+              spin,
+              textAlign: TextAlign.center,
+              style: selectedSpin == spin
+                  ? const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w900,
+                      fontSize: 16,
+                    )
+                  : const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 14,
+                    ),
+            ),
+          ),
+        ),
+      ));
+    }
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: handWidgets,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -192,8 +351,8 @@ class _AddBallScreenState extends State<AddBallScreen> {
       body: ListView(children: [
         Container(
           height: appHeight * tableProportion,
-          width: 100,
-          padding: const EdgeInsets.all(10),
+          width: appWidth * 0.26,
+          padding: const EdgeInsets.all(0),
           decoration:
               const BoxDecoration(color: Color.fromARGB(255, 21, 21, 21)),
           child: Row(
@@ -265,8 +424,16 @@ class _AddBallScreenState extends State<AddBallScreen> {
         ),
         Container(
           height: appHeight * 0.34,
-          decoration: const BoxDecoration(color: Colors.grey),
-          child: _buildStrokeList(),
+          decoration: const BoxDecoration(color: Colors.black87),
+          child: Row(
+            children: [
+              //List controlls
+              _buildStrokeList(),
+              _buildHandSelector(),
+              _buildSpinSelector()
+              
+            ],
+          ),
         )
       ]),
     );
