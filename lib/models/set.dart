@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 List<Set> setsFromRequestBody(List<dynamic> requestBody) =>
     List<Set>.from(List<Set>.from(
       requestBody.map(
@@ -9,8 +7,8 @@ List<Set> setsFromRequestBody(List<dynamic> requestBody) =>
 
 class Set {
   int id;
-  String player1;
-  String player2;
+  Map player1;
+  Map player2;
   dynamic date;
   dynamic tableTupe;
   dynamic tournament;
@@ -39,14 +37,26 @@ class Set {
         venue: json["venue"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "player1_id": player1,
-        "player2_id": player2,
-        "date": date,
-        "table_tupe": tableTupe,
-        "tournament": tournament,
-        "table_type": tableType,
-        "venue": venue,
-      };
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map["id"] = id;
+    map['player1'] = {
+      "id":player1["id"],
+      "name": player1["name"],
+      "playing_style": player1["playing_style"],
+      "right_handed": player1["right_handed"],
+    };
+    map['player2'] = {
+      "id":player2["id"],
+      "name": player2["name"],
+      "playing_style": player2["playing_style"],
+      "right_handed": player2["right_handed"],
+    };    map["date"] = date;
+    map["table_tupe"] = tableTupe;
+    map["tournament"] = tournament;
+    map["table_type"] = tableType;
+    map["venue"] = venue;
+
+    return map;
+  }
 }

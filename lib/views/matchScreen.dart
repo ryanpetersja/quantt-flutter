@@ -15,8 +15,6 @@ class MatchScreen extends StatefulWidget {
 }
 
 class _MatchScreenState extends State<MatchScreen> {
-  
-
   @override
   Widget build(BuildContext context) {
     Set match = widget.match;
@@ -25,7 +23,12 @@ class _MatchScreenState extends State<MatchScreen> {
           FloatingActionButtonLocation.miniCenterFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.push(
-            context, MaterialPageRoute(builder: (_) => const AddBallScreen())),
+          context,
+          MaterialPageRoute(
+            builder: (_) =>  AddBallScreen(
+                player1: match.player1, player2: match.player2),
+          ),
+        ),
         child: const Text(
           "Add Points",
           textAlign: TextAlign.center,
@@ -43,7 +46,7 @@ class _MatchScreenState extends State<MatchScreen> {
                   width: 15,
                 ),
                 Text(
-                  widget.match.player1,
+                  widget.match.player1["name"],
                   style: QTTStyles.pleyerNames(),
                 ),
                 const SizedBox(
@@ -57,7 +60,7 @@ class _MatchScreenState extends State<MatchScreen> {
                   height: 10,
                 ),
                 Text(
-                  widget.match.player2,
+                  widget.match.player2["name"],
                   style: QTTStyles.pleyerNames(),
                 ),
               ],

@@ -57,7 +57,7 @@ class _matchesState extends State<matches> {
                       width: 15,
                     ),
                     Text(
-                      set.player1,
+                      set.player1["name"],
                       style: QTTStyles.boldText(),
                     ),
                     const SizedBox(
@@ -71,7 +71,7 @@ class _matchesState extends State<matches> {
                       width: 10,
                     ),
                     Text(
-                      set.player2,
+                      set.player2["name"],
                       style: QTTStyles.boldText(),
                     ),
                   ]),
