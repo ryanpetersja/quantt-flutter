@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:quantt/models/ball.dart';
+import 'package:quantt/services/stroke_helper.dart';
 import 'package:quantt/styles/text_styles.dart';
 
+import '../../models/player.dart';
 import '../../services/helper.dart';
+import '../../services/placements.dart';
 
 class AddBallScreen extends StatefulWidget {
   final Map player1;
@@ -31,6 +35,8 @@ class _AddBallScreenState extends State<AddBallScreen> {
   Map<dynamic, dynamic> topPlayer = {};
   Map<dynamic, dynamic> bottomPlayer = {};
   double tableBorderThickness = 4;
+  double sectorCount = 0;
+  dynamic winner;
 
   _buildStrokeList() {
     List<String> strokes = [];
@@ -66,6 +72,7 @@ class _AddBallScreenState extends State<AddBallScreen> {
           strokes = [
             "Pendullum",
             "Cork Screw",
+            "Reverse pendullum",
             "Shovel",
             "Birdman",
           ];
@@ -165,11 +172,10 @@ class _AddBallScreenState extends State<AddBallScreen> {
                         fontWeight: FontWeight.w900,
                         fontSize: 14,
                       )
-                    :  TextStyle(
+                    : TextStyle(
                         color: Theme.of(context).primaryColor.withOpacity(0.5),
                         fontSize: 14,
-                        fontWeight: FontWeight.bold
-                      ),
+                        fontWeight: FontWeight.bold),
               ),
             ),
           ),
@@ -229,6 +235,7 @@ class _AddBallScreenState extends State<AddBallScreen> {
       isCenterQuadrant = true;
     }
 
+    sectorCount++;
     return GestureDetector(
       onTap: () {
         if (to == 0 && from == id) {
@@ -541,6 +548,28 @@ class _AddBallScreenState extends State<AddBallScreen> {
     });
   }
 
+  _getFromPlayer() {
+    String fromPosition = Placements.getPlayerPosition(from);
+    if (fromPosition == 'top') {
+      return topPlayer;
+    } else if (fromPosition == 'bottom') {
+      return bottomPlayer;
+    } else {
+      throw "unable to detect from player";
+    }
+  }
+
+  _getToPlayer() {
+    String toPosition = Placements.getPlayerPosition(to);
+    if (toPosition == 'top') {
+      return topPlayer;
+    } else if (toPosition == 'bottom') {
+      return bottomPlayer;
+    } else {
+      throw "unable to detect from player";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -595,7 +624,7 @@ class _AddBallScreenState extends State<AddBallScreen> {
                           decoration: const BoxDecoration(
                             border:
                                 Border(top: BorderSide(color: Colors.white)),
-                            color: Color.fromARGB(255, 0, 0, 0),
+                            color: Color.fromARGB(255, 29, 29, 29),
                           ),
                           child: Row(
                             children: [
@@ -688,8 +717,29 @@ class _AddBallScreenState extends State<AddBallScreen> {
                   children: [
                     TextButton.icon(
                       onPressed: () {
-                        print(
-                            "From: $from \n To: $to \n Stroke: $selectedStroke \n Stroke Category:  $selectedStrokeCategory \n Hand: $chosenHand \n Spin: $selectedSpin");
+                        String ballFromPosition = '';
+                        Player fromPlayer = Player.fromJson(_getFromPlayer());
+                        Player toPlayer = Player.fromJson(_getToPlayer());
+
+                        Ball ball = Ball(
+                          pointId: 1,
+                          winner: true,
+                          spin: selectedSpin,
+                          from: Placements.getPlacement(
+                              playerPosition:
+                                  Placements.getPlayerPosition(from),
+                              sectorIndex: from,
+                              rightHanded: fromPlayer.rightHanded),
+                          to: Placements.getPlacement(
+                              playerPosition: Placements.getPlayerPosition(to),
+                              sectorIndex: to,
+                              rightHanded: toPlayer.rightHanded),
+                          strokeType: selectedStroke,
+                          playerId: fromPlayer.id,
+                          loser: toPlayer.id,
+                          isService: StrokeHelper.isService(selectedStroke),
+                        );
+                        ball.save();
                       },
                       icon: const Icon(
                         Icons.check_circle,

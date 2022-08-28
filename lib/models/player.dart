@@ -3,7 +3,6 @@
 //     final player = playerFromJson(jsonString);
 
 // ignore: depend_on_referenced_packages
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 Player playerFromJson(String str) => Player.fromJson(json.decode(str));
@@ -23,7 +22,7 @@ class Player {
     int id;
     String name;
     String playingStyle;
-    String rightHanded;
+    bool rightHanded;
     DateTime? createdAt;
     DateTime? updatedAt;
 
@@ -31,7 +30,7 @@ class Player {
         id: json["id"],
         name: json["name"],
         playingStyle: json["playing_style"],
-        rightHanded: json["right_handed"],
+        rightHanded: json["right_handed"] == 'true' ? true : false,
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
     );

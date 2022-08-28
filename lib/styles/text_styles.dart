@@ -21,7 +21,7 @@ class QTTStyles {
   static backhandTextStyle() {
     return const TextStyle(
       fontWeight: FontWeight.w700,
-      color: Color.fromARGB(255, 212, 21, 21),
+      color: Color.fromARGB(255, 175, 2, 2),
       fontSize: 12,
     );
   }
