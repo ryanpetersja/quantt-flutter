@@ -27,7 +27,8 @@ class _matchesState extends State<matches> {
 
   _buildMatch(BuildContext context, set) {
     return GestureDetector(
-      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => MatchScreen(match: set))),
+      onTap: () => Navigator.push(
+          context, MaterialPageRoute(builder: (_) => MatchScreen(match: set))),
       child: Container(
         margin: const EdgeInsets.all(10),
         padding: const EdgeInsets.only(bottom: 10),
@@ -51,30 +52,31 @@ class _matchesState extends State<matches> {
                         topRight: Radius.circular(15))),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 9.0),
-                  child:
-                      Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Text(
-                      set.player1["name"],
-                      style: QTTStyles.boldText(),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      "vs",
-                      style: QTTStyles.boldText(),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      set.player2["name"],
-                      style: QTTStyles.boldText(),
-                    ),
-                  ]),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          set.player1["name"],
+                          style: QTTStyles.boldText(),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "vs",
+                          style: QTTStyles.boldText(),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          set.player2["name"],
+                          style: QTTStyles.boldText(),
+                        ),
+                      ]),
                 ),
               ),
               Padding(
@@ -85,7 +87,11 @@ class _matchesState extends State<matches> {
                     Text(
                       set.venue,
                     ),
-                     Text(set.date ?? "-", textAlign: TextAlign.start, style: const TextStyle(),),
+                    Text(
+                      set.date ?? "-",
+                      textAlign: TextAlign.start,
+                      style: const TextStyle(),
+                    ),
                   ],
                 ),
               )
@@ -106,24 +112,24 @@ class _matchesState extends State<matches> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
       // ignore: avoid_unnecessary_containers
-      body: _sets != null ? ListView.builder(
-          itemCount: _sets?.length,
-          itemBuilder: (context, index) {
-            Set set = _sets![index];
+      body: _sets != null
+          ? ListView.builder(
+              itemCount: _sets?.length,
+              itemBuilder: (context, index) {
+                Set set = _sets![index];
                 double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+                double height = MediaQuery.of(context).size.height;
 
-    print("height: $height \n width: $width");
-            return _buildMatch(context, set);
-            // return Container(child: Text('${set.venue}'));
-          }) : const EmptyResource(text: "No sets added yet"),
+                print("height: $height \n width: $width");
+                return _buildMatch(context, set);
+                // return Container(child: Text('${set.venue}'));
+              })
+          : const EmptyResource(text: "No sets added yet"),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

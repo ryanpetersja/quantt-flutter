@@ -1,3 +1,3 @@
 class Strings{
-  static const base_url = "http://192.168.0.3:8000/api";
+  static const base_url = "http://quantt.niageo.com/api";
 }

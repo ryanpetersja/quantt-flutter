@@ -29,8 +29,7 @@ class HTTPRequest {
       print(response.statusCode);
       throw "HTTP STATUS ERROR";
     }
-    print("+++++++++");
-    print(response.body);
+
     return jsonDecode(response.body);
   }
 }
