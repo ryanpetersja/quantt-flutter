@@ -11,17 +11,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // double AppHeight = MediaQuery.of(context).size.height;
+
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'QunTTit',
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home:  matches(title: 'QuanTT | Dashboard'),
+      home: matches(title: 'QuanTT | Dashboard'),
     );
   }
 }
-
-
-
-
